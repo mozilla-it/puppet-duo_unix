@@ -12,6 +12,7 @@ class duo_unix (
   $host = '',
   $group = '',
   $http_proxy = '',
+  $send_gecos = '',
   $fallback_local_ip = 'no',
   $failmode = 'safe',
   $pushinfo = 'no',

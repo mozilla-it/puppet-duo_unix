@@ -116,6 +116,10 @@ while others are optional.
   Configures usage of the http_proxy environment variable. There is not default
   for this setting.
 
+#### `send_gecos [optional]`
+  Configures usage of the send_gecos environment variable. There is no default
+  for this setting.
+
 #### `manage_ssh [optional]`
   Configures whether or not to allow the module to manage the SSH service/package. 
   The default is *true*.
