@@ -20,7 +20,8 @@ class duo_unix::generic {
       owner  => 'root',
       group  => 'root',
       mode   => '0644',
-      source => 'puppet:///modules/duo_unix/GPG-KEY-DUO',
+      # Updated 2020-03, see https://help.duo.com/s/article/5503
+      source => 'puppet:///modules/duo_unix/DUO-GPG-PUBLIC-KEY',
       notify => Exec['Duo Security GPG Import'];
     }
   }

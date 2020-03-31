@@ -32,10 +32,10 @@ class duo_unix::yum {
 
   if $::osfamily == 'RedHat' and $duo_unix::manage_repo {
     exec { 'Duo Security GPG Import':
-      command => '/bin/rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-DUO',
+      command => "/bin/rpm --import ${duo_unix::gpg_file}",
       unless  => '/bin/rpm -qi gpg-pubkey | grep Duo > /dev/null 2>&1',
       before   => Yumrepo['duosecurity'],
-      require  => File['/etc/pki/rpm-gpg/RPM-GPG-KEY-DUO'];
+      require  => File[$duo_unix::gpg_file];
     }
 
     yumrepo { 'duosecurity':
@@ -44,7 +44,7 @@ class duo_unix::yum {
       gpgcheck => '1',
       enabled  => '1',
       before   => Package[$duo_unix::duo_package],
-      require  => File['/etc/pki/rpm-gpg/RPM-GPG-KEY-DUO'];
+      require  => File[$duo_unix::gpg_file];
     }
   }
 
