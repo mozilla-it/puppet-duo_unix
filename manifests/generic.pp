@@ -14,13 +14,15 @@ class duo_unix::generic {
     require => Package[$duo_unix::duo_package];
   }
 
-  file { $duo_unix::gpg_file:
-    ensure => present,
-    owner  => 'root',
-    group  => 'root',
-    mode   => '0644',
-    source => 'puppet:///modules/duo_unix/GPG-KEY-DUO',
-    notify => Exec['Duo Security GPG Import'];
+  if $::osfamily != 'RedHat' or $duo_unix::manage_repo {
+    file { $duo_unix::gpg_file:
+      ensure => present,
+      owner  => 'root',
+      group  => 'root',
+      mode   => '0644',
+      source => 'puppet:///modules/duo_unix/GPG-KEY-DUO',
+      notify => Exec['Duo Security GPG Import'];
+    }
   }
 
   if $duo_unix::manage_ssh {

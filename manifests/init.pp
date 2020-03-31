@@ -22,6 +22,7 @@ class duo_unix (
   $accept_env_factor = 'no',
   $manage_ssh = true,
   $manage_pam = true,
+  $manage_repo = true,
   $pam_unix_control = 'requisite',
   $package_version = 'installed',
 ) {

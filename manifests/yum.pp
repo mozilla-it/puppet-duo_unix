@@ -30,12 +30,22 @@ class duo_unix::yum {
     $releasever = '$releasever'
   }
 
-  yumrepo { 'duosecurity':
-    descr    => 'Duo Security Repository',
-    baseurl  => "${repo_uri}/${os}/${releasever}/\$basearch",
-    gpgcheck => '1',
-    enabled  => '1',
-    require  => File['/etc/pki/rpm-gpg/RPM-GPG-KEY-DUO'];
+  if $::osfamily == 'RedHat' and $duo_unix::manage_repo {
+    exec { 'Duo Security GPG Import':
+      command => '/bin/rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-DUO',
+      unless  => '/bin/rpm -qi gpg-pubkey | grep Duo > /dev/null 2>&1',
+      before   => Yumrepo['duosecurity'],
+      require  => File['/etc/pki/rpm-gpg/RPM-GPG-KEY-DUO'];
+    }
+
+    yumrepo { 'duosecurity':
+      descr    => 'Duo Security Repository',
+      baseurl  => "${repo_uri}/${os}/${releasever}/\$basearch",
+      gpgcheck => '1',
+      enabled  => '1',
+      before   => Package[$duo_unix::duo_package],
+      require  => File['/etc/pki/rpm-gpg/RPM-GPG-KEY-DUO'];
+    }
   }
 
   if $duo_unix::manage_ssh {
@@ -46,12 +56,6 @@ class duo_unix::yum {
 
   package {  $duo_unix::duo_package:
     ensure  => $package_state,
-    require => [ Yumrepo['duosecurity'], Exec['Duo Security GPG Import'] ];
-  }
-
-  exec { 'Duo Security GPG Import':
-    command => '/bin/rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-DUO',
-    unless  => '/bin/rpm -qi gpg-pubkey | grep Duo > /dev/null 2>&1'
   }
 
 }

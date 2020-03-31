@@ -124,8 +124,13 @@ while others are optional.
   Configures whether or not to allow the module to manage the SSH service/package. 
   The default is *true*.
 
-#### `manage_pam [optinal]`
+#### `manage_pam [optional]`
   Configures whether or not to allow the module to manage the system PAM configuration.
+  The default is *true*.
+
+#### `manage_repo [optional]`
+  Configures whether or not, on RedHat, to control the duosecurity yum repo and the
+  repo GPG key.
   The default is *true*.
 
 #### `pam_unix_control [optional]`
