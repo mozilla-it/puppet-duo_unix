@@ -1,0 +1,31 @@
+# This is a basic workflow to help you get started with Actions
+
+name: puppet-lint
+
+# Controls when the action will run. Triggers the workflow on push or pull request
+# events but only for the master branch
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "puppet-lint" that runs puppet-lint
+  # http://puppet-lint.com/
+  puppet-lint:
+    # The type of runner that the job will run on
+    # Ref: https://docs.github.com/en/actions/reference/virtual-environments-for-github-hosted-runners#supported-runners-and-hardware-resources
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+
+      # Runs the linter in a docker container that has puppet-lint installed
+      - name: puppet-lint
+        uses: scottbrenner/puppet-lint-action@1.0.1
+        with:
+          args: --no-autoloader_layout-check ./
