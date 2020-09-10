@@ -1,10 +1,6 @@
-# == Class: duo_unix::login
+# @summary Provides duo_unix functionality for SSH via ForceCommand
 #
-# Provides duo_unix functionality for SSH via ForceCommand
-#
-# === Authors
-#
-# Mark Stanislav <mstanislav@duosecurity.com>
+# @api private
 #
 class duo_unix::login inherits duo_unix {
 

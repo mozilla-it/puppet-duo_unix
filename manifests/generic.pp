@@ -1,10 +1,7 @@
-# == Class: duo_unix::generic
+# @summary Provides usage-agnostic duo_unix functionality
 #
-# Provides usage-agnostic duo_unix functionality
+# @api private
 #
-# === Authors
-#
-# Mark Stanislav <mstanislav@duosecurity.com>
 class duo_unix::generic {
   file { '/usr/sbin/login_duo':
     ensure  => present,

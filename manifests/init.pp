@@ -1,10 +1,57 @@
-# == Class: duo_unix
+# @summary Installs and configures Duo
 #
-# Core class for duo_unix module
+# @api public
 #
-# === Authors
+# @example Basic usage
+#   class { 'duo_unix':
+#     usage     => 'login',
+#     ikey      => 'YOUR-IKEY-VALUE',
+#     skey      => 'YOUR-SKEY-VALUE',
+#     host      => 'YOUR-HOST-VALUE',
+#     pushinfo  => 'yes'
+#   }
 #
-# Mark Stanislav <mstanislav@duosecurity.com>
+# @see https://duo.com/docs/duounix
+#
+# @param ikey
+#   Sets the integration key
+# @param skey
+#   Sets the secret key
+# @param host
+#   Sets the Duo API server
+# @param usage
+#   Choose whether to setup via PAM or LOGIN
+# @param group
+#   Only enable Duo for selected group
+# @param http_proxy
+#   Use specified HTTP proxy for outbound requests to the Duo API server
+# @param send_gecos
+#   Send the entire GECOS field as the Duo username
+# @param fallback_local_ip
+#   Send local server's IP address if Duo cannot detect the user's IP
+# @param failmode
+#   On service or config errors, allow ("safe") or deny ("secure") access
+# @param pushinfo
+#   Include information such as the command to be executed in the Duo Push message
+# @param autopush
+#   Automatically send a push login request to the user's phone or failback to other methods
+# @param motd
+#   Print the contents of /etc/motd to screen after a successful login (only if $usage = login)
+# @param prompts
+#   Number of prompts per authentication
+# @param accept_env_factor
+#   Look for passcode in $DUO_PASSCODE environment variable
+# @param manage_ssh
+#   Manage SSH packages and config
+# @param manage_pam
+#   Manage PAM config using Augeas
+# @param manage_repo
+#   Manage package repositories for Duo
+# @param pam_unix_control
+#   Use the specified control mechanism for PAM
+# @param package_version
+#   Override `ensure` for the Duo Linux package
+#
 class duo_unix (
   String[20] $ikey,
   String[40] $skey,

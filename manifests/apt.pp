@@ -1,10 +1,6 @@
-# == Class: duo_unix::apt
+# @summary Provides duo_unix for an apt-based environment (e.g. Debian/Ubuntu)
 #
-# Provides duo_unix for an apt-based environment (e.g. Debian/Ubuntu)
-#
-# === Authors
-#
-# Mark Stanislav <mstanislav@duosecurity.com>
+# @api private
 #
 class duo_unix::apt {
   $repo_file = '/etc/apt/sources.list.d/duosecurity.list'

@@ -1,0 +1,2 @@
+# Ignore puppet-strings workdir
+.yardoc
