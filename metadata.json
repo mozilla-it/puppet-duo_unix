@@ -7,7 +7,6 @@
   "source": "https://github.com/mozilla-it/puppet-duo_unix",
   "project_page": "https://www.duosecurity.com/docs/duounix",
   "issues_url": "",
-  "description": "Duo Unix Puppet module.",
   "dependencies": [
     {
       "name": "puppetlabs/stdlib",
@@ -17,23 +16,36 @@
   "operatingsystem_support": [
     {
       "operatingsystem": "RedHat",
-      "operatingsystemrelease": [ "7", "8" ]
+      "operatingsystemrelease": [
+        "7",
+        "8"
+      ]
     },
     {
       "operatingsystem": "CentOS",
-      "operatingsystemrelease": [ "7", "8" ]
+      "operatingsystemrelease": [
+        "7",
+        "8"
+      ]
     },
     {
       "operatingsystem": "OracleLinux",
-      "operatingsystemrelease": [ "7", "8" ]
+      "operatingsystemrelease": [
+        "7",
+        "8"
+      ]
     },
     {
       "operatingsystem": "Debian",
-      "operatingsystemrelease": [ "8" ]
+      "operatingsystemrelease": [
+        "8"
+      ]
     },
     {
       "operatingsystem": "Ubuntu",
-      "operatingsystemrelease": [ "14.04" ]
+      "operatingsystemrelease": [
+        "14.04"
+      ]
     }
   ],
   "requirements": [
@@ -41,5 +53,9 @@
       "name": "puppet",
       "version_requirement": ">= 5.5.10 < 7.0.0"
     }
-  ]
+  ],
+  "description": "Duo Unix Puppet module.",
+  "pdk-version": "1.15.0",
+  "template-url": "pdk-default#1.15.0",
+  "template-ref": "tags/1.15.0-0-g0bc522eeac2c840af798edfad4d57968bf7756e4"
 }
