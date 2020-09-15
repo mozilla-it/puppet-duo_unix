@@ -17,7 +17,7 @@ describe 'duo_unix' do
 
         context 'when managing packages' do
           let(:params) do
-            super().merge({ 'manage_ssh' => true })
+            super().merge( 'manage_ssh' => true )
           end
 
           it { is_expected.to contain_package('openssh-server').with_ensure('installed') }
@@ -36,19 +36,21 @@ describe 'duo_unix' do
 
         context 'when usage: pam' do
           let(:params) do
-            super().merge({ 'usage' => 'pam' })
+            super().merge( 'usage' => 'pam' )
           end
 
           it { is_expected.to contain_class('duo_unix::pam') }
           it { is_expected.to contain_file('/etc/duo/pam_duo.conf').with_content %r{^host=api-xxxxxxxx.duosecurity.com} }
-          it { is_expected.to contain_augeas('Duo Security SSH Configuration').with_changes(['set /files/etc/ssh/sshd_config/UsePAM yes', 'set /files/etc/ssh/sshd_config/UseDNS no', 'set /files/etc/ssh/sshd_config/ChallengeResponseAuthentication yes']) }
+          it { is_expected.to contain_augeas('Duo Security SSH Configuration').with_changes(['set /files/etc/ssh/sshd_config/UsePAM yes',
+                                                                                             'set /files/etc/ssh/sshd_config/UseDNS no',
+                                                                                             'set /files/etc/ssh/sshd_config/ChallengeResponseAuthentication yes']) }
           it { is_expected.to contain_augeas('PAM Configuration') }
           it { is_expected.to compile.with_all_deps }
         end
 
         context 'when usage: login' do
           let(:params) do
-            super().merge({ 'usage' => 'login' })
+            super().merge( 'usage' => 'login' )
           end
 
           it { is_expected.to contain_class('duo_unix::login') }
@@ -57,7 +59,9 @@ describe 'duo_unix' do
               'ensure' => 'present',
             )
           }
-          it { is_expected.to contain_augeas('Duo Security SSH Configuration').with_changes(['set /files/etc/ssh/sshd_config/ForceCommand /usr/sbin/login_duo', 'set /files/etc/ssh/sshd_config/PermitTunnel no', 'set /files/etc/ssh/sshd_config/AllowTcpForwarding no']) }
+          it { is_expected.to contain_augeas('Duo Security SSH Configuration').with_changes(['set /files/etc/ssh/sshd_config/ForceCommand /usr/sbin/login_duo',
+                                                                                             'set /files/etc/ssh/sshd_config/PermitTunnel no',
+                                                                                             'set /files/etc/ssh/sshd_config/AllowTcpForwarding no']) }
           it { is_expected.to compile.with_all_deps }
         end
       end
@@ -65,16 +69,16 @@ describe 'duo_unix' do
   end
 
   context 'when on an unsupported Operating System' do
-    let (:facts) do
+    let(:facts) do
       {
         'os' => {
           'family' => 'MS-DOS',
-        }
+        },
       }
     end
 
-    it 'should fail' do
-      expect { is_expected.to compile }.to raise_error(/does not support/)
+    it 'fails on unsupported OS' do
+      expect { is_expected.to compile }.to raise_error(%r{ /does not support/ })
     end
   end
 end
