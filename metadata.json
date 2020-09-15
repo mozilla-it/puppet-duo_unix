@@ -11,6 +11,14 @@
     {
       "name": "puppetlabs/stdlib",
       "version_requirement": ">= 4.25.0 < 7.0.0"
+    },
+    {
+      "name": "puppetlabs/augeas_core",
+      "version_requirement": ">= 1.0.4 < 1.1.0"
+    },
+    {
+      "name": "puppetlabs/yumrepo_core",
+      "version_requirement": ">= 1.0.3 < 1.1.0"
     }
   ],
   "operatingsystem_support": [
