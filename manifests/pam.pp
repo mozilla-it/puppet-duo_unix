@@ -1,10 +1,6 @@
-# == Class: duo_unix::pam
+# @summary Provides duo_unix functionality for SSH via PAM
 #
-# Provides duo_unix functionality for SSH via PAM
-#
-# === Authors
-#
-# Mark Stanislav <mstanislav@duosecurity.com>
+# @api private
 #
 class duo_unix::pam inherits duo_unix {
   $aug_pam_path = "/files${::duo_unix::pam_file}"

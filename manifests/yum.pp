@@ -1,10 +1,6 @@
-# == Class: duo_unix::yum
+# @summary Provides duo_unix for a yum-based environment (e.g. RHEL/CentOS)
 #
-# Provides duo_unix for a yum-based environment (e.g. RHEL/CentOS)
-#
-# === Authors
-#
-# Mark Stanislav <mstanislav@duosecurity.com>
+# @api private
 #
 class duo_unix::yum {
   $repo_uri = 'https://pkg.duosecurity.com'
