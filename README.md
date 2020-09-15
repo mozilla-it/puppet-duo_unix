@@ -1,6 +1,4 @@
-# duo_unix Puppet v3 Module (Dev Status: Inactive)
-
-:exclamation: **This project was archived on 2/20/2018.**
+# duo_unix Puppet Module
 
 ## Table of Contents
 
@@ -27,8 +25,10 @@ For further information about duo_unix, view the official
 
 ## Installing
 
+Clone this repo to `duo_unix`:
+
 ```sh
-puppet module install duosecurity-duo_unix
+$ git clone https://github.com/mozilla-it/puppet-duo_unix duo_unix
 ```
 
 ## Configuring
@@ -142,22 +142,10 @@ while others are optional.
 
 ## Support and Limitations
 
-This module built on and tested against Puppet 3.2.4. It does not yet support 
-Puppet 4 and is no longer being actively developed. Duo continues to provide 
-best-effort support for this module.
+This module built on and tested against Puppet 6.18 and tested on:
 
-The module has been tested on:
-
-* RedHat Enterprise Linux 6.4 (32/64-bit)
-* RedHat Enterprise Linux 7.0 (64-bit)
-* CentOS 5.11 (32/64-bit)
-* CentOS 6.7 (32/64-bit)
-* CentOS 7.1 (64-bit)
-* Debian 6.0.10 (32/64-bit)
-* Debian 7.9 (32/64-bit)
-* Debian 8.2 (32/64-bit)
-* Ubuntu 12.04.5 (32/64-bit)
-* Ubuntu 14.04.3 (32/64-bit)
+* CentOS 7.x (64-bit)
+* CentOS 8.x (64-bit)
 
 If you test the module on other Linux distributions (or different versions of 
 the above), please provide feedback as able on successes or failures. 

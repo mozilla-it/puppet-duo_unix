@@ -30,18 +30,15 @@ accept_env_factor=<%= @accept_env_factor %>
 ; MOTD display
 motd=<%= @motd %>
 <% end -%>
-<% if @group != '' -%>
+<% if @group -%>
 
 ; Group restriction
 groups=<%= @group %>
 <% end -%>
-<% if @http_proxy != '' -%>
+<% if @http_proxy -%>
 
 ; HTTP proxy
 http_proxy=<%= @http_proxy %>
 <% end -%>
-<% if @send_gecos != '' -%>
-
 ; GECOS parameter
 send_gecos=<%= @send_gecos %>
-<% end -%>

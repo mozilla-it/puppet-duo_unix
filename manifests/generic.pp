@@ -11,11 +11,11 @@ class duo_unix::generic {
     owner   => 'root',
     group   => 'root',
     mode    => '4755',
-    require => Package[$duo_unix::duo_package];
+    require => Package[$::duo_unix::duo_package];
   }
 
-  if $::osfamily != 'RedHat' or $duo_unix::manage_repo {
-    file { $duo_unix::gpg_file:
+  if $facts['os']['family'] != 'RedHat' or $::duo_unix::manage_repo {
+    file { $::duo_unix::gpg_file:
       ensure => present,
       owner  => 'root',
       group  => 'root',
@@ -26,8 +26,8 @@ class duo_unix::generic {
     }
   }
 
-  if $duo_unix::manage_ssh {
-    service { $duo_unix::ssh_service:
+  if $::duo_unix::manage_ssh {
+    service { $::duo_unix::ssh_service:
       ensure => running,
       enable => true;
     }

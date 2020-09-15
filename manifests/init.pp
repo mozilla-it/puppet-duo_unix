@@ -6,53 +6,38 @@
 #
 # Mark Stanislav <mstanislav@duosecurity.com>
 class duo_unix (
-  $usage = '',
-  $ikey = '',
-  $skey = '',
-  $host = '',
-  $group = '',
-  $http_proxy = '',
-  $send_gecos = '',
-  $fallback_local_ip = 'no',
-  $failmode = 'safe',
-  $pushinfo = 'no',
-  $autopush = 'no',
-  $motd = 'no',
-  $prompts = '3',
-  $accept_env_factor = 'no',
-  $manage_ssh = true,
-  $manage_pam = true,
-  $manage_repo = true,
-  $pam_unix_control = 'requisite',
-  $package_version = 'installed',
+  String[20] $ikey,
+  String[40] $skey,
+  Stdlib::Host $host,
+  Enum['login', 'pam'] $usage = 'pam',
+  Optional[String[1]] $group = undef,
+  Optional[String[1]] $http_proxy = undef,
+  Enum['yes', 'no'] $send_gecos = 'no',
+  Enum['yes', 'no'] $fallback_local_ip = 'no',
+  Enum['safe', 'secure'] $failmode = 'safe',
+  Enum['yes', 'no'] $pushinfo = 'no',
+  Enum['yes', 'no'] $autopush = 'no',
+  Enum['yes', 'no'] $motd = 'no',
+  Integer[1, 3] $prompts = 3,
+  Enum['yes', 'no'] $accept_env_factor = 'no',
+  Boolean $manage_ssh = true,
+  Boolean $manage_pam = true,
+  Boolean $manage_repo = true,
+  Enum['sufficient', 'required', 'requisite'] $pam_unix_control = 'requisite',
+  Enum['latest', 'present', 'installed'] $package_version = 'installed',
 ) {
-  if $ikey == '' or $skey == '' or $host == '' {
-    fail('ikey, skey, and host must all be defined.')
-  }
 
-  if $usage != 'login' and $usage != 'pam' {
-    fail('You must configure a usage of duo_unix, either login or pam.')
-  }
-
-  case $::osfamily {
+  case $facts['os']['family'] {
     'RedHat': {
       $duo_package = 'duo_unix'
       $ssh_service = 'sshd'
       $gpg_file    = '/etc/pki/rpm-gpg/DUO-GPG-PUBLIC-KEY'
 
-      $pam_file = $::operatingsystemrelease ? {
-        /^5/ => '/etc/pam.d/system-auth',
-        /^(6|7|8|2014)/ => '/etc/pam.d/password-auth'
-      }
+      $pam_file    = '/etc/pam.d/password-auth'
+      $pam_module  = '/lib64/security/pam_duo.so'
 
-      $pam_module  = $::architecture ? {
-        i386   => '/lib/security/pam_duo.so',
-        i686   => '/lib/security/pam_duo.so',
-        x86_64 => '/lib64/security/pam_duo.so'
-      }
-
-      include duo_unix::yum
-      include duo_unix::generic
+      include ::duo_unix::yum
+      include ::duo_unix::generic
     }
     'Debian': {
       $duo_package = 'duo-unix'
@@ -60,23 +45,30 @@ class duo_unix (
       $gpg_file    = '/etc/apt/DUO-GPG-PUBLIC-KEY'
       $pam_file    = '/etc/pam.d/common-auth'
 
-      $pam_module  = $::architecture ? {
-        i386  => '/lib/security/pam_duo.so',
-        i686  => '/lib/security/pam_duo.so',
-        amd64 => '/lib64/security/pam_duo.so'
+      $pam_module  = $facts['architecture'] ? {
+        'i386'  => '/lib/security/pam_duo.so',
+        'i686'  => '/lib/security/pam_duo.so',
+        'amd64' => '/lib64/security/pam_duo.so',
+        default => fail("Module ${module_name} does not support architecture ${facts['architecture']}")
       }
 
-      include duo_unix::apt
-      include duo_unix::generic
+      include ::duo_unix::apt
+      include ::duo_unix::generic
     }
     default: {
-      fail("Module ${module_name} does not support ${::operatingsystem}")
+      fail("Module ${module_name} does not support ${facts['os']['family']}")
     }
   }
 
-  if $usage == 'login' {
-    include duo_unix::login
-  } else {
-    include duo_unix::pam
+  case $usage {
+    'login': {
+      include ::duo_unix::login
+    }
+    'pam': {
+      include ::duo_unix::pam
+    }
+    # We wouldn't hit the default case because $usage is an enum, but
+    # we add this here to please the linter
+    default: {}
   }
 }
