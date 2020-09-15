@@ -86,7 +86,7 @@ describe 'duo_unix' do
     end
 
     it 'fails on unsupported OS' do
-      expect { is_expected.to compile }.to raise_error(%r{ /does not support/ })
+      expect { is_expected.to compile }.to raise_error(%r{does not support})
     end
   end
 end
