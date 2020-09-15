@@ -41,11 +41,12 @@ describe 'duo_unix' do
 
           it { is_expected.to contain_class('duo_unix::pam') }
           it { is_expected.to contain_file('/etc/duo/pam_duo.conf').with_content %r{^host=api-xxxxxxxx.duosecurity.com} }
-          it
-          {
-            is_expected.to contain_augeas('Duo Security SSH Configuration').with_changes(['set /files/etc/ssh/sshd_config/UsePAM yes',
-                                                                                           'set /files/etc/ssh/sshd_config/UseDNS no',
-                                                                                           'set /files/etc/ssh/sshd_config/ChallengeResponseAuthentication yes'])
+          it {
+            is_expected.to contain_augeas('Duo Security SSH Configuration').with_changes(
+              ['set /files/etc/ssh/sshd_config/UsePAM yes',
+               'set /files/etc/ssh/sshd_config/UseDNS no',
+               'set /files/etc/ssh/sshd_config/ChallengeResponseAuthentication yes'],
+            )
           }
           it { is_expected.to contain_augeas('PAM Configuration') }
           it { is_expected.to compile.with_all_deps }
@@ -62,11 +63,12 @@ describe 'duo_unix' do
               'ensure' => 'present',
             )
           }
-          it
-          {
-            is_expected.to contain_augeas('Duo Security SSH Configuration').with_changes(['set /files/etc/ssh/sshd_config/ForceCommand /usr/sbin/login_duo',
-                                                                                          'set /files/etc/ssh/sshd_config/PermitTunnel no',
-                                                                                          'set /files/etc/ssh/sshd_config/AllowTcpForwarding no'])
+          it {
+            is_expected.to contain_augeas('Duo Security SSH Configuration').with_changes(
+              ['set /files/etc/ssh/sshd_config/ForceCommand /usr/sbin/login_duo',
+               'set /files/etc/ssh/sshd_config/PermitTunnel no',
+               'set /files/etc/ssh/sshd_config/AllowTcpForwarding no'],
+            )
           }
           it { is_expected.to compile.with_all_deps }
         end
