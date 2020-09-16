@@ -26,13 +26,27 @@ describe 'duo_unix' do
           when 'Debian'
             it { is_expected.to contain_class('duo_unix::apt') }
             it { is_expected.to contain_package('duo-unix').with_ensure('installed') }
+            it { is_expected.to contain_service('ssh').with(
+              ensure: 'running',
+              enable: true,
+              )
+            }
           when 'RedHat'
             it { is_expected.to contain_class('duo_unix::yum') }
+            it { is_expected.to contain_file('/etc/pki/rpm-gpg/DUO-GPG-PUBLIC-KEY') }
             it { is_expected.to contain_yumrepo('duosecurity') }
             it { is_expected.to contain_yumrepo('duosecurity').that_comes_before('Package[duo_unix]') }
             it { is_expected.to contain_package('duo_unix').with_ensure('installed') }
+            it { is_expected.to contain_service('sshd').with(
+              ensure: 'running',
+              enable: true,
+              )
+            }
           end
         end
+
+        it { is_expected.to contain_class('duo_unix::generic') }
+        it { is_expected.to contain_file('/usr/sbin/login_duo') }
 
         context 'when usage: pam' do
           let(:params) do
