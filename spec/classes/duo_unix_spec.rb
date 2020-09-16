@@ -26,9 +26,10 @@ describe 'duo_unix' do
           when 'Debian'
             it { is_expected.to contain_class('duo_unix::apt') }
             it { is_expected.to contain_package('duo-unix').with_ensure('installed') }
-            it { is_expected.to contain_service('ssh').with(
-              ensure: 'running',
-              enable: true,
+            it {
+              is_expected.to contain_service('ssh').with(
+                ensure: 'running',
+                enable: true,
               )
             }
           when 'RedHat'
@@ -37,9 +38,10 @@ describe 'duo_unix' do
             it { is_expected.to contain_yumrepo('duosecurity') }
             it { is_expected.to contain_yumrepo('duosecurity').that_comes_before('Package[duo_unix]') }
             it { is_expected.to contain_package('duo_unix').with_ensure('installed') }
-            it { is_expected.to contain_service('sshd').with(
-              ensure: 'running',
-              enable: true,
+            it {
+              is_expected.to contain_service('sshd').with(
+                ensure: 'running',
+                enable: true,
               )
             }
           end
