@@ -1,7 +1,7 @@
 {
   "name": "duosecurity-duo_unix",
   "version": "0.3.4",
-  "author": "Duo Security",
+  "author": "mozilla-it",
   "summary": "Installs, configures, and manages Duo Unix.",
   "license": "GPL-2.0",
   "source": "https://github.com/mozilla-it/puppet-duo_unix",
