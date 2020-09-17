@@ -13,31 +13,19 @@ class duo_unix::apt {
     }
   }
 
-  package { $::duo_unix::duo_package:
-    ensure  => $package_state,
-    require => [
-      File[$repo_file],
-      Exec['Duo Security GPG Import'],
-      Exec['duo-security-apt-update']
-    ]
-  }
+  if $::duo_unix::manage_repo {
+    apt::source { 'duosecurity':
+      location => $repo_uri,
+      repos    => 'main',
+      key      => {
+        'id'     => '08C2A645DDF240B85844068D7A450864C1A07A85',
+        'source' => 'https://duo.com/DUO-GPG-PUBLIC-KEY.asc'
+      }
+    }
 
-  file { $repo_file:
-    owner   => 'root',
-    group   => 'root',
-    mode    => '0644',
-    content => "deb ${repo_uri}/${facts['operatingsystem']} ${facts['lsbdistcodename']} main",
-    notify  => Exec['duo-security-apt-update']
-  }
-
-  exec { 'duo-security-apt-update':
-    command     => '/usr/bin/apt-get update',
-    refreshonly => true
-  }
-
-  exec { 'Duo Security GPG Import':
-    command => "/usr/bin/apt-key add ${::duo_unix::gpg_file}",
-    unless  => '/usr/bin/apt-key list | grep "Duo Security"',
-    notify  => Exec['duo-security-apt-update']
+    package { $::duo_unix::duo_package:
+      ensure  => $package_state,
+      require => Apt::Source['duosecurity'],
+    }
   }
 }

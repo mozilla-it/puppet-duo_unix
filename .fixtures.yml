@@ -6,3 +6,4 @@ fixtures:
      stdlib: "puppetlabs/stdlib"
      augeas_core: "puppetlabs/augeas_core"
      yumrepo: "puppetlabs/yumrepo_core"
+     apt: "puppetlabs/apt"

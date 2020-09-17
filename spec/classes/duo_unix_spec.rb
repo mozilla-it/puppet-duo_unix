@@ -25,6 +25,8 @@ describe 'duo_unix' do
           case facts[:osfamily]
           when 'Debian'
             it { is_expected.to contain_class('duo_unix::apt') }
+            it { is_expected.to contain_file('/etc/apt/DUO-GPG-PUBLIC-KEY') }
+            it { is_expected.to contain_apt__source('duosecurity').that_comes_before('Package[duo-unix]') }
             it { is_expected.to contain_package('duo-unix').with_ensure('installed') }
             it {
               is_expected.to contain_service('ssh').with(
@@ -35,7 +37,6 @@ describe 'duo_unix' do
           when 'RedHat'
             it { is_expected.to contain_class('duo_unix::yum') }
             it { is_expected.to contain_file('/etc/pki/rpm-gpg/DUO-GPG-PUBLIC-KEY') }
-            it { is_expected.to contain_yumrepo('duosecurity') }
             it { is_expected.to contain_yumrepo('duosecurity').that_comes_before('Package[duo_unix]') }
             it { is_expected.to contain_package('duo_unix').with_ensure('installed') }
             it {

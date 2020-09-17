@@ -18,18 +18,12 @@ class duo_unix::yum {
   }
 
   if $facts['os']['family'] == 'RedHat' and $::duo_unix::manage_repo {
-    exec { 'Duo Security GPG Import':
-      command => "/bin/rpm --import ${::duo_unix::gpg_file}",
-      unless  => "/bin/rpm -q gpg-pubkey-`echo $(gpg --throw-keyids < ${::duo_unix::gpg_file}) | cut --characters=11-18 | tr [A-Z] [a-z]`",
-      before  => Yumrepo['duosecurity'],
-      require => File[$::duo_unix::gpg_file];
-    }
-
     yumrepo { 'duosecurity':
       descr    => 'Duo Security Repository',
       baseurl  => "${repo_uri}/${os}/${releasever}/\$basearch",
       gpgcheck => '1',
       enabled  => '1',
+      gpgkey   => "file://${::duo_unix::gpg_file}",
       before   => Package[$::duo_unix::duo_package],
       require  => File[$::duo_unix::gpg_file];
     }

@@ -46,7 +46,7 @@
 # @param manage_pam
 #   Manage PAM config using Augeas
 # @param manage_repo
-#   Manage package repositories for Duo
+#   Manage rpm and deb package repositories for Duo
 # @param pam_unix_control
 #   Use the specified control mechanism for PAM
 # @param package_version
@@ -96,14 +96,14 @@ class duo_unix (
         'i386'  => '/lib/security/pam_duo.so',
         'i686'  => '/lib/security/pam_duo.so',
         'amd64' => '/lib64/security/pam_duo.so',
-        default => fail("Module ${module_name} does not support architecture ${facts['architecture']}")
+        default => fail("Module duo_unix does not support architecture ${facts['architecture']}")
       }
 
       include ::duo_unix::apt
       include ::duo_unix::generic
     }
     default: {
-      fail("Module ${module_name} does not support ${facts['os']['family']}")
+      fail("Module duo_unix does not support ${facts['os']['family']}")
     }
   }
 
